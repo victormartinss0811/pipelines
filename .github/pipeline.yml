@@ -1,0 +1,25 @@
+name: Trabalho DevOps FIAP 363910
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  meu-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: Step 2 - Listar arquivos
+        run: ls -la
+
+      - name: Step 3 - Validar frontend
+        run: |
+          if [ -f "frontend/index.html" ]; then
+            echo "Frontend encontrado com sucesso!"
+          else
+            echo "Erro: frontend não encontrado"
+            exit 1
+          fi
