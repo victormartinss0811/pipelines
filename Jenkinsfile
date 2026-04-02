@@ -1,30 +1,25 @@
-pipeline {
-   agent any
-    tools {
-        nodejs 'nodeRecent' 
-    }
-    environment { 
-        CI = 'true'
-    }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'chmod +x ./jenkins/scripts/test.sh'            
-                sh './jenkins/scripts/test.sh'
-            }      
-        }
+name: Trabalho DevOps FIAP 363910
 
-        stage('Deploy for production') {       
-            steps {
-                sh 'chmod -R +x ./jenkins/scripts'
-                sh './jenkins/scripts/deliver.sh'
-                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
-            }
-        }      
-    }
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  meu-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: Step 2 - Listar arquivos
+        run: ls -la
+
+      - name: Step 3 - Validar frontend
+        run: |
+          if [ -f "frontend/index.html" ]; then
+            echo "Frontend encontrado com sucesso!"
+          else
+            echo "Erro: frontend não encontrado"
+            exit 1
+          fi
